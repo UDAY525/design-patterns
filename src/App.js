@@ -3,14 +3,17 @@ import CurrentUserLoader from "./components/current-user-loader";
 import DataSource from "./components/data-source";
 import ResourceLoader from "./components/resource-loader";
 import { UserInfo } from "./components/user-info";
+
+const getDataFromServer = async (url) => {
+  const response = await axios.get(url);
+  return response.data;
+};
+
 function App() {
   return (
     <>
       <DataSource
-        getData={async () => {
-          const response = await axios.get("/users/1");
-          return response.data;
-        }}
+        getData={async () => getDataFromServer("/users/2")}
         resourceName={"user"}
       >
         <UserInfo />
