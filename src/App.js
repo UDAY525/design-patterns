@@ -10,20 +10,27 @@ const getDataFromServer = async (url) => {
   return response.data;
 };
 
+const getDataFromLocalStorage = (key) => () => {
+  return localStorage.getItem(key);
+};
+
+const Message = ({ msg }) => <h1>{msg}</h1>;
+
 function App() {
   return (
     <>
+      <DataSource
+        getData={() => getDataFromLocalStorage("token")}
+        resourceName={"msg"}
+      >
+        <Message />
+      </DataSource>
       <DataSourceRender
         getData={async () => getDataFromServer("/users/1")}
         resourceName={"user"}
         render={(resource) => <UserInfo user={resource} />}
       ></DataSourceRender>
-      <DataSource
-        getData={async () => getDataFromServer("/users/1")}
-        resourceName={"user"}
-      >
-        <UserInfo />
-      </DataSource>
+
       <ResourceLoader resourceName={"user"} resourceUrl={"/users/2"}>
         <UserInfo />
       </ResourceLoader>
